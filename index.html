@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Frontend-only TestMail inbox viewer. Paste your API key and read messages in your browser. No backend, no server storage.">
+  <meta name="keywords" content="TestMail, inbox viewer, temporary email, email testing, frontend-only, GitHub Pages">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="TestMail Lens - Browser Inbox Viewer">
+  <meta property="og:description" content="Paste your TestMail API key and view inbox messages in your browser. No backend.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://astroisback.github.io/testmail/">
+  <meta property="og:site_name" content="TestMail Lens">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TestMail Lens - Browser Inbox Viewer">
+  <meta name="twitter:description" content="Paste your TestMail API key and view inbox messages in your browser. No backend.">
+  <link rel="canonical" href="https://astroisback.github.io/testmail/">
+  <title>TestMail Lens | Browser Inbox Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-one"></div>
+  <div class="bg-orb bg-orb-two"></div>
+
+  <header class="site-header">
+    <div class="logo">TestMail Lens</div>
+    <div class="header-actions">
+      <button id="themeToggle" class="ghost-btn" type="button" aria-pressed="false">Mono: Off</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel intro">
+      <div class="eyebrow">Frontend-only inbox viewer</div>
+      <h1>Paste your TestMail key and watch emails arrive.</h1>
+      <p class="lead">All requests go straight from your browser to the TestMail API. No backend, no server storage.</p>
+
+      <form id="mailForm" autocomplete="off">
+        <label class="field">
+          <span>TestMail API key</span>
+          <input id="apiKey" type="password" placeholder="tm_..." required>
+        </label>
+
+        <label class="field">
+          <span>Namespace</span>
+          <input id="namespace" type="text" placeholder="namespace" required>
+          <span class="helper">Required. Your TestMail namespace.</span>
+        </label>
+
+        <label class="field">
+          <span>Email address (optional)</span>
+          <input id="emailAddress" type="text" placeholder="tag@namespace.testmail.app">
+          <span class="helper">Optional. Auto-fills namespace and tag when possible.</span>
+        </label>
+
+        <details class="advanced">
+          <summary>Advanced options (tag + API base)</summary>
+          <div class="advanced-grid">
+            <label class="field">
+              <span>Tag (optional)</span>
+              <input id="tag" type="text" placeholder="tag">
+              <span class="helper">Optional. Use if you want a specific tag.</span>
+            </label>
+            <label class="field">
+              <span>API base URL</span>
+              <input id="apiBase" type="text" value="https://api.testmail.app/api/json">
+            </label>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button class="primary-btn" type="submit">Fetch inbox</button>
+          <button class="ghost-btn" type="button" id="clearBtn">Clear</button>
+        </div>
+
+        <div class="form-meta">
+          <label class="check">
+            <input type="checkbox" id="rememberKey">
+            Remember key on this device
+          </label>
+          <button class="link-btn" type="button" id="copyConfig">Copy request URL</button>
+        </div>
+      </form>
+
+      <div id="status" class="status" role="status" aria-live="polite">Ready.</div>
+
+      <div class="privacy-card">
+        <h3>Privacy note</h3>
+        <p>Your API key stays in this browser. Requests go directly to TestMail, not to any server you control here.</p>
+      </div>
+    </section>
+
+    <section class="panel inbox">
+      <div class="inbox-head">
+        <div>
+          <h2>Inbox</h2>
+          <p class="muted">Click a message to preview it.</p>
+        </div>
+        <div class="inbox-actions">
+          <button class="ghost-btn" type="button" id="refreshBtn">Refresh</button>
+          <button class="ghost-btn" type="button" id="rawToggle">Raw JSON</button>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="metric-label">Total</span>
+          <span id="count" class="metric-value">0</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Last fetch</span>
+          <span id="lastFetch" class="metric-value">-</span>
+        </div>
+      </div>
+
+      <div class="split">
+        <div id="list" class="list">
+          <div class="empty">No emails yet. Fetch your inbox.</div>
+        </div>
+        <div id="detail" class="detail">
+          <div class="empty">Select an email to preview.</div>
+        </div>
+      </div>
+
+      <div id="rawPanel" class="raw" hidden>
+        <div class="raw-head">
+          <h3>Raw response</h3>
+          <button class="ghost-btn" type="button" id="copyRaw">Copy JSON</button>
+        </div>
+        <pre id="rawJson"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Static site ready for GitHub Pages.</span>
+    <span class="muted">No backend. All browser-side.</span>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
